@@ -275,6 +275,13 @@ function createSetupStore<
       }
     : noop
 
+  function $dispose() {
+    scope.stop()
+    subscriptions = []
+    actionSubscriptions = []
+    pinia._s.delete($id)
+  }
+
   /**
    * Wraps an action to handle subscriptions.
    *
@@ -454,6 +461,7 @@ function createSetupStore<
 
       return removeSubscription
     },
+    $dispose,
   } as StoreWithState<Id, S, G, A>
 
   const store: Store<Id, S, G, A> = reactive(
